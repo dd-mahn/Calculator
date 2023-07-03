@@ -5,7 +5,7 @@ body{
     margin: 0;
     padding: 0;
     height: auto;
-    font-size: 24px;
+    font-size: 32px;
     font-family: 'Space Mono', monospace;
 }
 
@@ -21,11 +21,16 @@ body{
     color: #0f0e17;
     border-radius: 25px;
 }
+
+
 .display{
     background-color: #a7a9be;
     padding: 48px;
     border: 5px solid black;
     border-radius: 5px;
+}
+.display-text{
+    animation: blink 1.5s infinite;
 }
 
 
@@ -55,4 +60,14 @@ body{
 }
 .operator-btn{
     background-color: #e53170;
+}
+
+
+@keyframes blink{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
 }
