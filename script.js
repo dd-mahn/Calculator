@@ -2,41 +2,91 @@ var firstOperand = ''
 var firstOperator = ''
 var secondOperand = ''
 var secondOperator = ''
-var displayVal = ''
+var result = ''
 
-var display = document.querySelector('display-text')
+var display = document.querySelector('#display-text')
 var numberButtons = document.querySelectorAll('#input-btn')
 var operatorButtons = document.querySelectorAll('#operator-btn')
 var clearButton = document.querySelector('#clear-btn')
 var undoButton = document.querySelector('#undo-btn')
 var calcButton = document.querySelector('#calc-btn')
 
-//Display function: only 1 number on the top, the whole operation smaller on side
-function displayS() {
+//Display function: only 1 operand on the screen
+function displayS(){
+    if(firstOperator === ''){
+        display.textContent = firstOperand
+    }else if(firstOperator !== '' && secondOperand === ''){
+        display.textContent = firstOperator
+    }else if(firstOperator !== '' && secondOperand !== ''){
+        display.textContent = secondOperand
+    }else{
+        display.textContent = secondOperator
+    }
+}
+function refresh(){
+    display.textContent = ''
+}
+//Whenever user click operator, the value of next number clicks goes to next operand
+function input() {
     numberButtons.forEach(numberButton => numberButton.addEventListener('click', () => {
-        if(firstOperator === '')firstOperand += numberButton.textContent
-        else if(firstOperator !== '')secondOperand += numberButton.textContent
+        if(firstOperator === ''){
+            firstOperand += numberButton.textContent
+            displayS()
+        }else if(firstOperator !== ''){
+            secondOperand += numberButton.textContent
+            displayS()
+        }
     }))
     operatorButtons.forEach(operatorButton => operatorButton.addEventListener('click', () => {
         if(firstOperand === ''){
             if(operatorButton.textContent !== '-')operatorButton.style = "background-color: #5e152e"
             else firstOperand += '-'
+            displayS()
         }else if(firstOperand !== '' && secondOperand === ''){
-            firstOperator += operatorButton.textContent
+            if(firstOperator.length < 1){
+                firstOperator += operatorButton.textContent
+            }
+            displayS()
+            //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
         }else if(secondOperand !== ''){
-            secondOperator += operatorButton.textContent
+            if(firstOperator.length < 1){
+                secondOperator += operatorButton.textContent
+            }
             operate()
         }
     }))
+    
 }
-
-displayS()
-//Whenever user click operator, the value of next number clicks goes to next operand
-
-//When 2 operands filled up and user click other operator which is not 'equal' , call operate()
-
+input()
 //operate function
-
+function operate(){
+    switch(true){
+        case firstOperator === '+' :
+            result = parseFloat(firstOperand) + parseFloat(secondOperand)
+            break
+        case firstOperator === '-' :
+            result = parseFloat(firstOperand) - parseFloat(secondOperand)
+            break
+        case firstOperator === '*' :
+            result = parseFloat(firstOperand) * parseFloat(secondOperand)
+            break
+        case firstOperator === '/' :
+            result = parseFloat(firstOperand) / parseFloat(secondOperand)
+            break
+        case firstOperator === '%' :
+            result = parseFloat(firstOperand) % parseFloat(secondOperand)
+            break
+    }
+    if(result !== ''){
+        firstOperator = result
+        displayS()
+        secondOperand = ''
+        if(secondOperator !== ''){
+            firstOperator = secondOperator
+            secondOperator = ''
+        }
+    }   
+}
 //clear function
 
 //undo function
