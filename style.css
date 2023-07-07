@@ -29,9 +29,6 @@ body{
     border: 5px solid black;
     border-radius: 5px;
 }
-.display-text{
-    animation: blink 1.5s infinite;
-}
 
 
 .numpad{
@@ -62,12 +59,3 @@ body{
     background-color: #e53170;
 }
 
-
-@keyframes blink{
-    from{
-        opacity: 1;
-    }
-    to{
-        opacity: 0;
-    }
-}
