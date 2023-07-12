@@ -15,16 +15,15 @@ var calcButton = document.querySelector('#calc-btn')
 function displayS(){
     if(firstOperator === ''){
         display.textContent = firstOperand
-    }else if(firstOperator !== '' && secondOperand === ''){
-        display.textContent = firstOperator
+    }else if(firstOperand !== '' && secondOperand === ''){
+        if(display.textContent.length < (firstOperand + firstOperator).length ){
+            display.textContent += firstOperator
+        }
     }else if(firstOperator !== '' && secondOperand !== ''){
         display.textContent = secondOperand
     }else{
         display.textContent = secondOperator
     }
-}
-function refresh(){
-    display.textContent = ''
 }
 //Whenever user click operator, the value of next number clicks goes to next operand
 function input() {
@@ -39,8 +38,10 @@ function input() {
     }))
     operatorButtons.forEach(operatorButton => operatorButton.addEventListener('click', () => {
         if(firstOperand === ''){
-            if(operatorButton.textContent !== '-')operatorButton.style = "background-color: #5e152e"
-            else firstOperand += '-'
+            if(operatorButton.textContent === '-')firstOperand += '-'
+            displayS()
+        }else if(firstOperator !== '' && secondOperand === ''){
+            if(operatorButton.textContent === '-')secondOperand += '-'
             displayS()
         }else if(firstOperand !== '' && secondOperand === ''){
             if(firstOperator.length < 1){
@@ -48,18 +49,28 @@ function input() {
             }
             displayS()
             //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
-        }else if(secondOperand !== ''){
-            if(firstOperator.length < 1){
-                secondOperator += operatorButton.textContent
-            }
+        }else if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){   
+            secondOperator += operatorButton.textContent
             operate()
+            display.textContent = result
+            change()
         }
     }))
     
 }
 input()
+//'equal' click function
+calcButton.addEventListener('click', () => {
+    if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){
+        operate()   
+        change()
+    }else {
+        display.textContent = 'Error!'
+        clear()
+    }
+})
 //operate function
-function operate(){
+function operate(){    
     switch(true){
         case firstOperator === '+' :
             result = parseFloat(firstOperand) + parseFloat(secondOperand)
@@ -67,30 +78,54 @@ function operate(){
         case firstOperator === '-' :
             result = parseFloat(firstOperand) - parseFloat(secondOperand)
             break
+        case firstOperator === '/' :
+            if(secondOperand !== '0'){
+                result = parseFloat(firstOperand) / parseFloat(secondOperand)
+                break
+            }else{
+                result = 'Error!'
+                break
+            }           
         case firstOperator === '*' :
             result = parseFloat(firstOperand) * parseFloat(secondOperand)
-            break
-        case firstOperator === '/' :
-            result = parseFloat(firstOperand) / parseFloat(secondOperand)
             break
         case firstOperator === '%' :
             result = parseFloat(firstOperand) % parseFloat(secondOperand)
             break
     }
-    if(result !== ''){
-        firstOperator = result
-        displayS()
+}
+//change value function
+function change(){
+    if(result !== '' && result !== 'Error!'){
         secondOperand = ''
+        firstOperator = ''
+        firstOperand = result
         if(secondOperator !== ''){
             firstOperator = secondOperator
             secondOperator = ''
         }
-    }   
+    }else if(result === 'Error!'){
+        display.textContent = 'Error!'
+        clear()
+    }
+    displayS()
 }
 //clear function
-
+function clear(){
+    firstOperand = ''
+    firstOperator = ''
+    secondOperand = ''
+    secondOperator = ''
+    result = ''
+}
+clearButton.addEventListener('click', () => {
+    clear()
+    display.textContent = '...'
+})
 //undo function
+function undo(){
 
+}
 //deal with float: limit 'dot' click time by 1, create a round() function to round the float
 //
 
