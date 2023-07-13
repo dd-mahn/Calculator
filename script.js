@@ -50,10 +50,15 @@ function input() {
             displayS()
             //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
         }else if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){   
-            secondOperator += operatorButton.textContent
-            operate()
-            display.textContent = result
-            change()
+            if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
+                secondOperator += operatorButton.textContent
+                operate()
+                display.textContent = result
+                change()
+            }else {
+                display.textContent = 'Error!'
+                clear()
+            }
         }
     }))
     
@@ -61,7 +66,7 @@ function input() {
 input()
 //'equal' click function
 calcButton.addEventListener('click', () => {
-    if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){
+    if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
         operate()   
         change()
     }else {
@@ -79,13 +84,8 @@ function operate(){
             result = parseFloat(firstOperand) - parseFloat(secondOperand)
             break
         case firstOperator === '/' :
-            if(secondOperand !== '0'){
-                result = parseFloat(firstOperand) / parseFloat(secondOperand)
-                break
-            }else{
-                result = 'Error!'
-                break
-            }           
+            result = parseFloat(firstOperand) / parseFloat(secondOperand)
+            break
         case firstOperator === '*' :
             result = parseFloat(firstOperand) * parseFloat(secondOperand)
             break
@@ -104,9 +104,6 @@ function change(){
             firstOperator = secondOperator
             secondOperator = ''
         }
-    }else if(result === 'Error!'){
-        display.textContent = 'Error!'
-        clear()
     }
     displayS()
 }
