@@ -29,6 +29,9 @@ body{
     border: 5px solid black;
     border-radius: 5px;
 }
+#display-text{
+    font-size: 36px;
+}
 
 
 .numpad{
