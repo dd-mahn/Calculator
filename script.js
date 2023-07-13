@@ -128,7 +128,7 @@ function undo(){
 
 
 
-// //define display
+// //Old way :)
 // let display = document.querySelector(".display")
 // let defaultDisplay = document.getElementById("display-text")
 // let inputDisplay = document.createElement("span")
