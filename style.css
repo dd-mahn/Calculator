@@ -26,7 +26,7 @@ body{
 .display{
     background-color: #a7a9be;
     padding: 32px;
-    border: 5px solid black;
+    border: 4px solid black;
     border-radius: 5px;
 }
 #display-text{
@@ -48,7 +48,7 @@ body{
     padding:20px;
     width: 60px;
     flex-grow: 0.2;
-    border: 5px solid black;
+    border: 4px solid black;
     border-radius: 5px;
 }
 .btn:hover{
