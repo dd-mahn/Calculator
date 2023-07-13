@@ -15,7 +15,7 @@ body{
 .calculator{
     margin:0px auto 128px;
     padding:36px;
-    width: 30%;
+    width: 600px;
     height: auto;
     background-color: #fffffe;
     color: #0f0e17;
@@ -45,9 +45,9 @@ body{
 .btn{
     text-align: center;
     background-color: #ff8906;
-    padding:39px;
-    width: 22px;
-    flex-grow: 0.25;
+    padding:20px;
+    width: 60px;
+    flex-grow: 0.2;
     border: 5px solid black;
     border-radius: 5px;
 }
