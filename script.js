@@ -10,6 +10,7 @@ var operatorButtons = document.querySelectorAll('#operator-btn')
 var clearButton = document.querySelector('#clear-btn')
 var undoButton = document.querySelector('#undo-btn')
 var calcButton = document.querySelector('#calc-btn')
+var dotButton = document.querySelector('#dot-btn')
 
 //Display function: only 1 operand on the screen
 function displayS(){
@@ -36,6 +37,16 @@ function input() {
             displayS()
         }
     }))
+    //dot btn can only be clicked 1 time
+    dotButton.addEventListener('click', () => {
+        if(firstOperand.includes('.') === false){
+            firstOperand += dotButton.textContent
+            displayS()
+        }else if(secondOperand.includes('.') === false){
+            secondOperand += dotButton.textContent
+            displayS()
+        }
+    })
     operatorButtons.forEach(operatorButton => operatorButton.addEventListener('click', () => {
         if(firstOperand === ''){
             if(operatorButton.textContent === '-')firstOperand += '-'
@@ -48,7 +59,7 @@ function input() {
                 firstOperator += operatorButton.textContent
             }
             displayS()
-            //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
+        //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
         }else if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){   
             if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
                 secondOperator += operatorButton.textContent
@@ -78,19 +89,19 @@ calcButton.addEventListener('click', () => {
 function operate(){    
     switch(true){
         case firstOperator === '+' :
-            result = parseFloat(firstOperand) + parseFloat(secondOperand)
+            result = round(parseFloat(firstOperand) + parseFloat(secondOperand))
             break
         case firstOperator === '-' :
-            result = parseFloat(firstOperand) - parseFloat(secondOperand)
+            result = round(parseFloat(firstOperand) - parseFloat(secondOperand))
             break
         case firstOperator === '/' :
-            result = parseFloat(firstOperand) / parseFloat(secondOperand)
+            result = round(parseFloat(firstOperand) / parseFloat(secondOperand))
             break
         case firstOperator === '*' :
-            result = parseFloat(firstOperand) * parseFloat(secondOperand)
+            result = round(parseFloat(firstOperand) * parseFloat(secondOperand))
             break
         case firstOperator === '%' :
-            result = parseFloat(firstOperand) % parseFloat(secondOperand)
+            result = round(parseFloat(firstOperand) % parseFloat(secondOperand))
             break
     }
 }
@@ -120,14 +131,28 @@ clearButton.addEventListener('click', () => {
     display.textContent = '...'
 })
 //undo function
+undoButton.addEventListener('click', () => {
+    undo()
+    displayS()
+    if(display.textContent === ''){
+        display.textContent += '...'
+    }else if(secondOperand === ''){
+        display.textContent = firstOperator != '' ? firstOperand + firstOperator : firstOperand 
+    }
+})
 function undo(){
-
+    if(display.textContent === firstOperand){
+        firstOperand = firstOperand.slice(0,-1)
+    }else if(display.textContent === firstOperand + firstOperator){
+        firstOperator = ''
+    }else if(display.textContent === secondOperand){
+        secondOperand = secondOperand.slice(0,-1)
+    }
 }
-//deal with float: limit 'dot' click time by 1, create a round() function to round the float
-//
-
-
-
+//function to round the float
+function round(a){
+    return Math.round(a * 1000) / 1000
+}
 // //Old way :)
 // let display = document.querySelector(".display")
 // let defaultDisplay = document.getElementById("display-text")
