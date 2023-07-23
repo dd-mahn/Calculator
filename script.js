@@ -12,6 +12,7 @@ var undoButton = document.querySelector('#undo-btn')
 var calcButton = document.querySelector('#calc-btn')
 var dotButton = document.querySelector('#dot-btn')
 
+
 //Display function: only 1 operand on the screen
 function displayS(){
     if(firstOperator === ''){
@@ -80,7 +81,7 @@ input()
 
 
 //Keyboard function
-window.addEventListener('keydown', KeyboardInput)
+window.addEventListener('keydown',KeyboardInput)
 function KeyboardInput(e) {
     if (e.key >= 0 && e.key <= 9) {
         if(firstOperator === ''){
@@ -145,8 +146,9 @@ function KeyboardInput(e) {
                 display.textContent = 'Error!'
                 clear()
             }
+        }
     }
-  }
+    e.preventDefault()
 }
 
 
@@ -184,6 +186,9 @@ function evaluate(){
             break
     }
 }
+
+
+
 //change value function
 function change(){
     if(result !== '' && result !== 'Error!'){
@@ -197,6 +202,9 @@ function change(){
     }
     displayS()
 }
+
+
+
 //clear function
 function clear(){
     firstOperand = ''
@@ -230,10 +238,14 @@ function undo(){
         secondOperand = secondOperand.slice(0,-1)
     }
 }
+
+
+
 //function to round the float
 function round(a){
     return Math.round(a * 1000) / 1000
 }
+
 // //Old way :)
 // let display = document.querySelector(".display")
 // let defaultDisplay = document.getElementById("display-text")
