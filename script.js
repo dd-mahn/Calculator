@@ -28,6 +28,7 @@ function displayS(){
 }
 //Whenever user click operator, the value of next number clicks goes to next operand
 function input() {
+    
     numberButtons.forEach(numberButton => numberButton.addEventListener('click', () => {
         if(firstOperator === ''){
             firstOperand += numberButton.textContent
@@ -72,7 +73,6 @@ function input() {
             }
         }
     }))
-    
 }
 input()
 //'equal' click function
