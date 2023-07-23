@@ -110,12 +110,17 @@ function KeyboardInput(e) {
         }
     }
     if (e.key === 'Backspace') {
-        console.log(e.key)
         undo()
+        displayS()
+        if(display.textContent === ''){
+            display.textContent += '...'
+        }else if(secondOperand === ''){
+            display.textContent = firstOperator != '' ? firstOperand + firstOperator : firstOperand 
+        }
     }
     if (e.key === 'Escape') {
-        console.log(e.key)
         clear()
+        display.textContent = '...'
     }
     if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/'){
         if(firstOperand === ''){
@@ -204,6 +209,8 @@ clearButton.addEventListener('click', () => {
     clear()
     display.textContent = '...'
 })
+
+
 //undo function
 undoButton.addEventListener('click', () => {
     undo()
