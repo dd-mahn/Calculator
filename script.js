@@ -26,9 +26,10 @@ function displayS(){
         display.textContent = secondOperator
     }
 }
-//Whenever user click operator, the value of next number clicks goes to next operand
+
+
+//Whenever user click or press operator, the value of next number goes to next operand
 function input() {
-    
     numberButtons.forEach(numberButton => numberButton.addEventListener('click', () => {
         if(firstOperator === ''){
             firstOperand += numberButton.textContent
@@ -60,11 +61,11 @@ function input() {
                 firstOperator += operatorButton.textContent
             }
             displayS()
-        //When 2 operands filled up and user click other operator which is not 'equal' , call operate()
+        //When 2 operands filled up and user click other operator which is not 'equal' , call evaluate()
         }else if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){   
             if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
                 secondOperator += operatorButton.textContent
-                operate()
+                evaluate()
                 display.textContent = result
                 change()
             }else {
@@ -75,18 +76,91 @@ function input() {
     }))
 }
 input()
+
+
+
+//Keyboard function
+window.addEventListener('keydown', KeyboardInput)
+function KeyboardInput(e) {
+    if (e.key >= 0 && e.key <= 9) {
+        if(firstOperator === ''){
+            firstOperand += e.key
+            displayS()
+        }else if(firstOperator !== ''){
+            secondOperand += e.key
+            displayS()
+        }
+    }
+    if (e.key === '.') {
+        if(firstOperand.includes('.') === false){
+            firstOperand += '.'
+            displayS()
+        }else if(secondOperand.includes('.') === false){
+            secondOperand += '.'
+            displayS()
+        }
+    }
+    if (e.key === 'Enter') {
+        if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
+            evaluate()   
+            change()
+        }else {
+            display.textContent = 'Error!'
+            clear()
+        }
+    }
+    if (e.key === 'Backspace') {
+        console.log(e.key)
+        undo()
+    }
+    if (e.key === 'Escape') {
+        console.log(e.key)
+        clear()
+    }
+    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/'){
+        if(firstOperand === ''){
+            if(e.key === '-')firstOperand += '-'
+            displayS()
+        }else if(firstOperator !== '' && secondOperand === ''){
+            if(e.key === '-')secondOperand += '-'
+            displayS()
+        }else if(firstOperand !== '' && secondOperand === ''){
+            if(firstOperator.length < 1){
+                firstOperator += e.key
+            }
+            displayS()
+        //When 2 operands filled up and user click other operator which is not 'equal' , call evaluate()
+        }else if(firstOperand !== '' && firstOperator !== '' && secondOperand !== ''){   
+            if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
+                secondOperator += e.key
+                evaluate()
+                display.textContent = result
+                change()
+            }else {
+                display.textContent = 'Error!'
+                clear()
+            }
+    }
+  }
+}
+
+
+
 //'equal' click function
 calcButton.addEventListener('click', () => {
     if(firstOperand !== '' && firstOperator !== '' && secondOperand !== '0'){
-        operate()   
+        evaluate()   
         change()
     }else {
         display.textContent = 'Error!'
         clear()
     }
 })
-//operate function
-function operate(){    
+
+
+
+//evaluate function
+function evaluate(){    
     switch(true){
         case firstOperator === '+' :
             result = round(parseFloat(firstOperand) + parseFloat(secondOperand))
